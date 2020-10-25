@@ -1,46 +1,4 @@
 {
   "quizzes": [
-    {
-      "name": "My Quiz",
-      "author": "Stuart",
-      "questions": [
-        {
-          "question": "When did WW1 begin?",
-          "correctAnswer": "1914",
-          "distractors": [
-            "1929",
-            "1899",
-            "1953"
-          ],
-          "imageUrl": ""
-        },
-        {
-          "question": "When did man first walk on the moon?",
-          "correctAnswer": "1969",
-          "distractors": [
-            "1972",
-            "1975",
-            "1966"
-          ],
-          "imageUrl": ""
-        }
-      ],
-      "id": 1
-    },
-    {
-      "name": "Planning Quiz",
-      "author": "Peter",
-      "questions": [
-        {
-          "question": "Do Planners suck balls?",
-          "correctAnswer": "Yes",
-          "distractors": [
-            "No"
-          ],
-          "imageUrl": ""
-        }
-      ],
-      "id": 2
-    }
   ]
 }
