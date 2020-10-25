@@ -3,6 +3,6 @@ export default class Question {
         this.question = question;
         this.correctAnswer = correctAnswer;
         this.distractors = distractors;
-        this.imageFilename = imageFilename;
+        this.imageUrl = imageUrl;
     }
 }

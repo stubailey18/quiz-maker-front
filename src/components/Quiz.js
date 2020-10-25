@@ -5,11 +5,11 @@ import Question from './Question';
 import QuizResult from './QuizResult';
 
 export default function Quiz() {
-    const {quizId} = useParams();
     const [quiz, setQuiz] = useState(null);
     const [error, setError] = useState('');
     const [index, setIndex] = useState(0);
     const [numCorrectAnswers, setNumCorrectAnswers] = useState(0);
+    const {quizId} = useParams();
     useEffect(() => {
         const fetchQuiz = async () => {
             try {

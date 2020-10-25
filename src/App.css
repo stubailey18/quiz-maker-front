@@ -1,3 +1,12 @@
+body {
+    background-color: #f7f7f7 !important;
+}
+.invalidInput {
+    border: solid 1px #d9534f !important;
+}
+.invalidValueMessage {
+    color: #d9534f;
+}
 .rightAnswer {
     background-color: #5cb85c;
     color: white;
