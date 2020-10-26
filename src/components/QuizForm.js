@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 export default function QuizForm(props) {
-    const {quiz, setQuiz, onAddQuestion, onSave} = props;
+    const {quiz, setQuiz, setStatus, onEditQuestion, onDeleteQuestion, onAddQuestion, onSave} = props;
     const [name, setName] = useState('');
     const [author, setAuthor] = useState('');
     const [formSubmitted, setFormSubmitted] = useState(false);
@@ -22,6 +24,7 @@ export default function QuizForm(props) {
                         // this ensures that if the user adds a question before saving
                         // the changes he/she makes here are not lost when this comp. is re-rendered
                         setQuiz({...quiz, name: e.target.value});
+                        setStatus({message: 'You\'ve unsaved changes!', classes: 'alert alert-warning'});
                     }}
                     className={formSubmitted && !name ? 'form-control invalidInput' : 'form-control'} />
                 {formSubmitted && !name && <span className="invalidValueMessage">The name is required</span>}
@@ -37,10 +40,43 @@ export default function QuizForm(props) {
                         // this ensures that if the user adds a question before saving
                         // the changes he/she makes here are not lost when this comp. is re-rendered
                         setQuiz({...quiz, author: e.target.value});
+                        setStatus({message: 'You\'ve unsaved changes!', classes: 'alert alert-warning'});
                     }}
                     className={formSubmitted && !author ? 'form-control invalidInput' : 'form-control'} />
                 {formSubmitted && !author && <span className="invalidValueMessage">The author is required</span>}
             </div>
+            {quiz.questions.length > 0 && (
+                <div>
+                    <p>Questions</p>
+                    <table className="table">
+                        <tbody>
+                            {quiz.questions.map((question, index) => (
+                                <tr key={index}>
+                                    <td className="pl-0">{question.question}</td>
+                                    <td>
+                                        <button 
+                                            type="button"
+                                            onClick={() => onEditQuestion(index)}
+                                            className="text-primary"
+                                            style={{background: 'none', border: 'none'}}>
+                                            <FontAwesomeIcon icon={faPencilAlt} />
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button
+                                            type="button"
+                                            onClick={() => onDeleteQuestion(index)}
+                                            className="text-primary"
+                                            style={{background: 'none', border: 'none'}}>
+                                            <FontAwesomeIcon icon={faTrashAlt} />
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            )}
             <div className="form-group">
                 <button
                     type="button"

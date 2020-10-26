@@ -3,9 +3,11 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import QuizForm from './QuizForm';
 import QuestionForm from './QuestionForm';
+import { saveQuestionImages } from '../services/quiz.services';
 
 export default function QuizEditor() {
     const [quiz, setQuiz] = useState({name: '', author: '', questions: []});
+    const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(null);
     const [activeComponent, setActiveComponent] = useState('QuizForm');
     const [mode, setMode] = useState('create');
     const [saving, setSaving] = useState(false);
@@ -37,7 +39,8 @@ export default function QuizEditor() {
             if (mode === 'create') {
                 const postQuiz = async () => {
                     try {
-                        const response = await axios.post(process.env.REACT_APP_API_URL, quiz);
+                        const temp = await saveQuestionImages(quiz);
+                        const response = await axios.post(process.env.REACT_APP_API_URL, temp);
                         setQuiz(response.data);
                         setStatus({
                             message: 'Done! Your quiz has been saved.',
@@ -56,7 +59,8 @@ export default function QuizEditor() {
             } else {
                 const putQuiz = async () => {
                     try {
-                        await axios.put(`${process.env.REACT_APP_API_URL}/${quiz.id}`, quiz);
+                        const temp = await saveQuestionImages(quiz);
+                        await axios.put(`${process.env.REACT_APP_API_URL}/${quiz.id}`, temp);
                         setStatus({
                             message: 'Done! Your quiz has been saved.',
                             classes: 'alert alert-success'
@@ -72,7 +76,7 @@ export default function QuizEditor() {
                 putQuiz();
             }
         }
-    }, [saving, mode, quiz]);
+    }, [saving]);
     return (
         <div className="row justify-content-center">
             <div className="container col-sm-10 col-md-8 col-lg-6">
@@ -81,6 +85,19 @@ export default function QuizEditor() {
                     <QuizForm 
                         quiz={quiz}
                         setQuiz={setQuiz}
+                        setStatus={setStatus}
+                        onEditQuestion={index => {
+                            setSelectedQuestionIndex(index);
+                            setActiveComponent('QuestionForm');
+                        }}
+                        onDeleteQuestion={index => {
+                            const confirmed = window.confirm(`Are you sure you want to delete question ${index + 1}?`);
+                            if (confirmed) {
+                                quiz.questions.splice(index, 1);
+                                setQuiz({...quiz});
+                                setStatus({message: 'You\'ve unsaved changes!', classes: 'alert alert-warning'});
+                            }
+                        }}
                         onAddQuestion={() => setActiveComponent('QuestionForm')}
                         onSave={({name, author}) => {
                             setQuiz({...quiz, name, author});
@@ -90,11 +107,26 @@ export default function QuizEditor() {
                 }
                 {activeComponent === 'QuestionForm' && 
                     <QuestionForm 
+                        // selectedQuestionIndex !== null because 0 index is valid
+                        question={selectedQuestionIndex !== null ? quiz.questions[selectedQuestionIndex] : null}
+                        questionIndex={selectedQuestionIndex}
                         onSave={question => {
-                            setQuiz({...quiz, questions: [...quiz.questions, question]});
+                            if (selectedQuestionIndex !== null) {
+                                // update question
+                                quiz.questions[selectedQuestionIndex] = question;
+                                setQuiz({...quiz});
+                            } else {
+                                // add question
+                                setQuiz({...quiz, questions: [...quiz.questions, question]});
+                            }
+                            setSelectedQuestionIndex(null);
                             setActiveComponent('QuizForm');
+                            setStatus({message: 'You\'ve unsaved changes!', classes: 'alert alert-warning'});
                         }} 
-                        onCancel={() => setActiveComponent('QuizForm')} />
+                        onCancel={() => {
+                            setSelectedQuestionIndex(null);
+                            setActiveComponent('QuizForm');
+                        }} />
                 }
                 {status.message && (
                     <p className={status.classes}>{status.message}&nbsp;

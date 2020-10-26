@@ -1,17 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 export default function QuestionForm(props) {
-    const {onSave, onCancel} = props;
+    const {questionIndex, onSave, onCancel} = props;
     const [question, setQuestion] = useState('');
     const [correctAnswer, setCorrectAnswer] = useState('');
     const [distractors, setDistractors] = useState(['']);
     const [imageUrl, setImageUrl] = useState('');
+    const [imageFile, setImageFile] = useState('');
     const [formSubmitted, setFormSubmitted] = useState(false);
+    useEffect(() => {
+        if (props.question) {
+            setQuestion(props.question.question);
+            setCorrectAnswer(props.question.correctAnswer);
+            setDistractors(props.question.distractors);
+            setImageUrl(props.question.imageUrl);
+        }
+    }, [props.question]);
     return (
         <form>
             <div className="custom-file">
                 <input 
                     type="file" 
+                    onChange={e => {
+                        setImageFile(e.target.files[0]);
+                    }}
                     className="custom-file-input" />
                 <label className="custom-file-label">Image</label>
             </div>
@@ -36,18 +50,35 @@ export default function QuestionForm(props) {
             {distractors.map((distractor, index) => (
                 <div key={index} className="form-group">
                     <label>Distractor #{index + 1}</label>
-                    <input 
-                        type="text" 
-                        value={distractor}
-                        onChange={e => {
-                            e.persist();
-                            setDistractors(prevDistractors => {
-                                const newDistractors = [...prevDistractors];
-                                newDistractors[index] = e.target.value;
-                                return newDistractors;
-                            });
-                        }}
-                        className={formSubmitted && !distractors[index] ? 'form-control invalidInput' : 'form-control'} />
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-10 p-0">
+                                <input 
+                                    type="text" 
+                                    value={distractor}
+                                    onChange={e => {
+                                        e.persist();
+                                        setDistractors(prevDistractors => {
+                                            const newDistractors = [...prevDistractors];
+                                            newDistractors[index] = e.target.value;
+                                            return newDistractors;
+                                        });
+                                    }}
+                                    className={formSubmitted && !distractors[index] ? 'form-control invalidInput' : 'form-control'} />
+                            </div>
+                            <div className="col-2 pr-0">
+                                <button 
+                                    type="button"
+                                    onClick={() => {
+                                        distractors.splice(index, 1);
+                                        setDistractors([...distractors]);
+                                    }}
+                                    className="form-control text-primary">
+                                    <FontAwesomeIcon icon={faTrashAlt} />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                     {formSubmitted && !distractors[index] && <span className="invalidValueMessage">Distractors must not be empty and at least one is required</span>}
                 </div>    
             ))}
@@ -65,11 +96,11 @@ export default function QuestionForm(props) {
                     onClick={() => {
                         setFormSubmitted(true);
                         if (question && correctAnswer && distractors.every(d => !!d)) {
-                            onSave({question, correctAnswer, distractors, imageUrl});
+                            onSave({question, correctAnswer, distractors, imageUrl, imageFile});
                         }
                     }}
                     className="btn btn-dark">
-                    Add question to quiz
+                    {questionIndex !== null ? 'Apply changes to quiz' : 'Add question to quiz'}
                 </button>&nbsp;
                 <button
                     type="button"

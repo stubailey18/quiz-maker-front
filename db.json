@@ -1,4 +1,41 @@
 {
   "quizzes": [
+    {
+      "name": "My Quiz",
+      "author": "Stu",
+      "questions": [
+        {
+          "question": "When did WW1 begin?",
+          "correctAnswer": "1914",
+          "distractors": [
+            "1929",
+            "1953",
+            "1905"
+          ],
+          "imageUrl": "http://res.cloudinary.com/dswezohlv/image/upload/v1603734298/quiz-maker/o8o9ov5ucrtctxk0cfo9.png"
+        },
+        {
+          "question": "When did man first walk on the moon?",
+          "correctAnswer": "1969",
+          "distractors": [
+            "1972",
+            "1966",
+            "1975"
+          ],
+          "imageUrl": "http://res.cloudinary.com/dswezohlv/image/upload/v1603734708/quiz-maker/oclvtknokcwm9c7fn5s7.png"
+        },
+        {
+          "question": "When was the WWW invented?",
+          "correctAnswer": "1989",
+          "distractors": [
+            "1983",
+            "1992",
+            "1971"
+          ],
+          "imageUrl": "http://res.cloudinary.com/dswezohlv/image/upload/v1603738090/quiz-maker/yv3pzxhvwgqeeljn69gd.png"
+        }
+      ],
+      "id": 1
+    }
   ]
 }

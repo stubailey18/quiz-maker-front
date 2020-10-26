@@ -10,7 +10,6 @@ export default function QuizTable() {
     const [numDeletedQuizzes, setNumDeletedQuizzes] = useState(0);
     useEffect(() => {
         const fetchQuizzes = async () => {
-            console.log('Fetching quizzes...');
             try {
                 const response = await axios.get(process.env.REACT_APP_API_URL);
                 setQuizzes(response.data);
@@ -42,13 +41,16 @@ export default function QuizTable() {
                                 <td className="d-none d-sm-table-cell">{author}</td>
                                 <td className="d-none d-sm-table-cell">{questions.length}</td>
                                 <td><Link to={`/quizeditor?quizId=${id}`}><FontAwesomeIcon icon={faPencilAlt} /></Link></td>
-                                <td><a href="#" onClick={async () => {
-                                    const confirmed = window.confirm(`Are you sure you want to delete ${name}?`);
-                                    if (confirmed) {
-                                        await axios.delete(`${process.env.REACT_APP_API_URL}/${id}`);
-                                        setNumDeletedQuizzes(num => num + 1);
-                                    }
-                                }}><FontAwesomeIcon icon={faTrashAlt} /></a></td>
+                                <td><button 
+                                    onClick={async () => {
+                                        const confirmed = window.confirm(`Are you sure you want to delete ${name}?`);
+                                        if (confirmed) {
+                                            await axios.delete(`${process.env.REACT_APP_API_URL}/${id}`);
+                                            setNumDeletedQuizzes(num => num + 1);
+                                        }
+                                    }}
+                                    className="text-primary"
+                                    style={{background: 'none', border: 'none'}}><FontAwesomeIcon icon={faTrashAlt} /></button></td>
                             </tr>
                         ))}
                     </tbody>
