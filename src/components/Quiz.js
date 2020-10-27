@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import { fetchQuiz } from '../services/quiz.services';
 import Question from './Question';
 import QuizResult from './QuizResult';
 
@@ -11,15 +11,9 @@ export default function Quiz() {
     const [numCorrectAnswers, setNumCorrectAnswers] = useState(0);
     const {quizId} = useParams();
     useEffect(() => {
-        const fetchQuiz = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/${quizId}`);
-                setQuiz(response.data);
-            } catch (error) {
-                setError('Oops! I\'m currently unable to retrieve the quiz. Please try again later.');
-            }
-        }
-        fetchQuiz();
+        fetchQuiz(quizId)
+            .then(setQuiz)
+            .catch(() => setError('Oops! I can\'t fetch quizzes right now.'));
     }, [quizId]);
     return (
         <>

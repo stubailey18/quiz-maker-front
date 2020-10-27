@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { fetchQuizzes } from '../services/quiz.services';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
@@ -9,15 +10,9 @@ export default function QuizTable() {
     const [error, setError] = useState('');
     const [numDeletedQuizzes, setNumDeletedQuizzes] = useState(0);
     useEffect(() => {
-        const fetchQuizzes = async () => {
-            try {
-                const response = await axios.get(process.env.REACT_APP_API_URL);
-                setQuizzes(response.data);
-            } catch (error) {
-                setError('Oops! I can\'t fetch quizzes right now.');
-            }
-        }
-        fetchQuizzes();
+            fetchQuizzes()
+                .then(setQuizzes)
+                .catch(() => setError('Oops! I can\'t fetch quizzes right now.'));
     }, [numDeletedQuizzes]);
     return (
         <>

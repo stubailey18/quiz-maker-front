@@ -1,5 +1,27 @@
 import axios from 'axios';
 
+export async function fetchQuizzes() {
+    const response = await axios.get(process.env.REACT_APP_API_URL);
+    return response.data;
+}
+
+export async function fetchQuiz(quizId) {
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/${quizId}`);
+    return response.data;
+}
+
+export async function postQuiz(quiz) {
+    const modifiedQuiz = await saveQuestionImages(quiz);
+    const response = await axios.post(process.env.REACT_APP_API_URL, modifiedQuiz);
+    return response.data;
+}
+
+export async function putQuiz(quiz) {
+    const modifiedQuiz = await saveQuestionImages(quiz);
+    const response = await axios.put(`${process.env.REACT_APP_API_URL}/${quiz.id}`, modifiedQuiz);
+    return response.data;
+}
+
 // for each quiz question with an imageFile prop:
 // 1. post the image to Cloudinary
 // 2. remove the imageFile prop

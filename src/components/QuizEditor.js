@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import axios from 'axios';
+import { fetchQuiz, postQuiz, putQuiz } from '../services/quiz.services';
 import QuizForm from './QuizForm';
 import QuestionForm from './QuestionForm';
-import { saveQuestionImages } from '../services/quiz.services';
 
 export default function QuizEditor() {
     const [quiz, setQuiz] = useState({name: '', author: '', questions: []});
@@ -16,19 +15,15 @@ export default function QuizEditor() {
     const quizId = queryParams.get('quizId');
     useEffect(() => {
         if (quizId) {
-            const fetchQuiz = async () => {
-                try {
-                    const response = await axios.get(`${process.env.REACT_APP_API_URL}/${quizId}`);
-                    setQuiz(response.data);
-                } catch (error) {
+            fetchQuiz(quizId)
+                .then(setQuiz)
+                .catch(() => {
                     setStatus({
                         message: 'Oops! I can\'t fetch quizzes right now.',
                         classes: 'alert alert-danger'
                     });
-                }
-                setMode('update');
-            }
-            fetchQuiz();
+                });
+            setMode('update');
         } else {
             setQuiz({name: '', author: '', questions: []});
             setMode('create');
@@ -37,43 +32,35 @@ export default function QuizEditor() {
     useEffect(() => {
         if (saving) {
             if (mode === 'create') {
-                const postQuiz = async () => {
-                    try {
-                        const temp = await saveQuestionImages(quiz);
-                        const response = await axios.post(process.env.REACT_APP_API_URL, temp);
-                        setQuiz(response.data);
+                postQuiz(quiz)
+                    .then(quizWithId => {
+                        setQuiz(quizWithId);
                         setStatus({
                             message: 'Done! Your quiz has been saved.',
                             classes: 'alert alert-success'
                         });
                         setMode('update');
-                    } catch (error) {
+                    }).catch(() => {
                         setStatus({
                             message: 'Oops! I can\'t save quizzes right now.',
                             classes: 'alert alert-danger'
                         });
-                    }
-                    setSaving(false);
-                }
-                postQuiz();
+                    });
+                setSaving(false);
             } else {
-                const putQuiz = async () => {
-                    try {
-                        const temp = await saveQuestionImages(quiz);
-                        await axios.put(`${process.env.REACT_APP_API_URL}/${quiz.id}`, temp);
+                putQuiz(quiz)
+                    .then(() => {
                         setStatus({
                             message: 'Done! Your quiz has been saved.',
                             classes: 'alert alert-success'
                         });
-                    } catch (error) {
+                    }).catch(() => {
                         setStatus({
                             message: 'Oops! I can\'t save quizzes right now.',
                             classes: 'alert alert-danger'
                         });
-                    }
-                    setSaving(false);
-                }
-                putQuiz();
+                    });
+                setSaving(false);
             }
         }
     }, [saving]);
@@ -102,8 +89,7 @@ export default function QuizEditor() {
                         onSave={({name, author}) => {
                             setQuiz({...quiz, name, author});
                             setSaving(true);
-                        }} 
-                        onCancel={() => setQuiz({name: '', author: '', questions: []})} />
+                        }}  />
                 }
                 {activeComponent === 'QuestionForm' && 
                     <QuestionForm 
