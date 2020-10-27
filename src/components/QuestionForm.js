@@ -14,7 +14,9 @@ export default function QuestionForm(props) {
         if (props.question) {
             setQuestion(props.question.question);
             setCorrectAnswer(props.question.correctAnswer);
-            setDistractors(props.question.distractors);
+            // the copy is necessary here so that changes to distractors 
+            // don't affect the parent quiz in the event the user cancels
+            setDistractors([...props.question.distractors]);
             setImageUrl(props.question.imageUrl);
         }
     }, [props.question]);
@@ -29,6 +31,21 @@ export default function QuestionForm(props) {
                     className="custom-file-input" />
                 <label className="custom-file-label">Image</label>
             </div>
+            {imageUrl && (
+                <div className="form-group">
+                    <button 
+                        type="button"
+                        data-toggle="collapse" 
+                        data-target="#imageDiv"
+                        className="text-primary"
+                        style={{background: 'none', border: 'none', fontSize: 'smaller'}}>
+                        Show me the image
+                    </button>
+                    <div id="imageDiv" className="collapse">
+                        <img src={imageUrl} style={{width: '100%'}} />
+                    </div>
+                </div>
+            )}
             <div className="form-group mt-3">
                 <label>Question</label>
                 <input 

@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-// for each question with an imageFile prop:
+// for each quiz question with an imageFile prop:
 // 1. post the image to Cloudinary
 // 2. remove the imageFile prop
 // 3. add/overwrite an imageUrl prop
-// returns the updated questions
+// returns a copy of the updated quiz
 export async function saveQuestionImages(quiz) {
     const {questions} = quiz;
     for (let question of questions) {
@@ -16,6 +16,7 @@ export async function saveQuestionImages(quiz) {
             question.imageUrl = response.data.url;
         }
         // delete the imageFile prop so that it's not written to the API
+        // doing this outside of the loop so that the prop's deleted even if it's assigned an empty object
         delete question.imageFile;
     }
     return {...quiz, questions};

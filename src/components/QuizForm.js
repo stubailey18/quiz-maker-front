@@ -46,9 +46,16 @@ export default function QuizForm(props) {
                 {formSubmitted && !author && <span className="invalidValueMessage">The author is required</span>}
             </div>
             {quiz.questions.length > 0 && (
-                <div>
-                    <p>Questions</p>
-                    <table className="table">
+                <div className="form-group">
+                    <button
+                        type="button"
+                        data-toggle="collapse"
+                        data-target="#questionTable"
+                        className="text-primary"
+                        style={{background: 'none', border: 'none'}}>
+                        Show questions
+                    </button>
+                    <table id="questionTable" className="table collapse">
                         <tbody>
                             {quiz.questions.map((question, index) => (
                                 <tr key={index}>
