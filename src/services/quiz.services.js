@@ -22,10 +22,15 @@ export async function putQuiz(quiz) {
     return response.data;
 }
 
+export async function deleteQuiz(quizId) {
+    const response = await axios.delete(`${process.env.REACT_APP_API_URL}/${quizId}`);
+    return response.data;
+}
+
 // for each quiz question with an imageFile prop:
 // 1. post the image to Cloudinary
 // 2. remove the imageFile prop
-// 3. add/overwrite an imageUrl prop
+// 3. add/overwrite the imageUrl prop
 // returns a copy of the updated quiz
 export async function saveQuestionImages(quiz) {
     const {questions} = quiz;
@@ -33,8 +38,8 @@ export async function saveQuestionImages(quiz) {
         if (question.imageFile) {
             const formData = new FormData();
             formData.append('file', question.imageFile);
-            formData.append('upload_preset', 'quiz-maker');
-            const response = await axios.post('https://api.cloudinary.com/v1_1/dswezohlv/image/upload', formData);
+            formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
+            const response = await axios.post(process.env.REACT_APP_CLOUDINARY_URL, formData);
             question.imageUrl = response.data.url;
         }
         // delete the imageFile prop so that it's not written to the API

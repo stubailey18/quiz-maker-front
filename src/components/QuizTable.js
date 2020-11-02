@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { fetchQuizzes } from '../services/quiz.services';
+import { deleteQuiz, fetchQuizzes } from '../services/quiz.services';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 export default function QuizTable() {
     const [quizzes, setQuizzes] = useState([]);
-    const [error, setError] = useState('');
     const [numDeletedQuizzes, setNumDeletedQuizzes] = useState(0);
+    const [error, setError] = useState('');
     useEffect(() => {
             fetchQuizzes()
                 .then(setQuizzes)
@@ -36,16 +35,23 @@ export default function QuizTable() {
                                 <td className="d-none d-sm-table-cell">{author}</td>
                                 <td className="d-none d-sm-table-cell">{questions.length}</td>
                                 <td><Link to={`/quizeditor?quizId=${id}`}><FontAwesomeIcon icon={faPencilAlt} /></Link></td>
-                                <td><button 
-                                    onClick={async () => {
-                                        const confirmed = window.confirm(`Are you sure you want to delete ${name}?`);
-                                        if (confirmed) {
-                                            await axios.delete(`${process.env.REACT_APP_API_URL}/${id}`);
-                                            setNumDeletedQuizzes(num => num + 1);
-                                        }
-                                    }}
-                                    className="text-primary"
-                                    style={{background: 'none', border: 'none'}}><FontAwesomeIcon icon={faTrashAlt} /></button></td>
+                                <td>
+                                    <button 
+                                        onClick={async () => {
+                                            const confirmed = window.confirm(`Are you sure you want to delete ${name}?`);
+                                            if (confirmed) {
+                                                try {
+                                                    deleteQuiz(id);
+                                                    setNumDeletedQuizzes(num => num + 1);
+                                                } catch {
+                                                    setError('Oops! I can\'t delete quizzes right now.')
+                                                }
+                                            }
+                                        }}
+                                        className="text-primary buttonAsAnchor">
+                                        <FontAwesomeIcon icon={faTrashAlt} />
+                                    </button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>

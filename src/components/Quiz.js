@@ -6,9 +6,9 @@ import QuizResult from './QuizResult';
 
 export default function Quiz() {
     const [quiz, setQuiz] = useState(null);
-    const [error, setError] = useState('');
-    const [index, setIndex] = useState(0);
+    const [questionIndex, setQuestionIndex] = useState(0);
     const [numCorrectAnswers, setNumCorrectAnswers] = useState(0);
+    const [error, setError] = useState('');
     const {quizId} = useParams();
     useEffect(() => {
         fetchQuiz(quizId)
@@ -17,13 +17,13 @@ export default function Quiz() {
     }, [quizId]);
     return (
         <>
-            {quiz && index < quiz.questions.length && (
+            {quiz && questionIndex < quiz.questions.length && (
                 <Question 
-                    question={quiz.questions[index]} 
-                    onCorrectAnswer={() => setNumCorrectAnswers(nca => nca + 1)}
-                    onNextQuestion={() => setIndex(index => index + 1)} />
+                    question={quiz.questions[questionIndex]} 
+                    onCorrectAnswer={() => setNumCorrectAnswers(num => num + 1)}
+                    onNextQuestion={() => setQuestionIndex(index => index + 1)} />
             )}
-            {quiz && index >= quiz.questions.length && (
+            {quiz && questionIndex >= quiz.questions.length && (
                 <QuizResult 
                     numQuestions={quiz.questions.length} 
                     numCorrectAnswers={numCorrectAnswers} />

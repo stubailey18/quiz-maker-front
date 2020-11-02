@@ -42,7 +42,10 @@ export default function QuestionForm(props) {
                         Show me the image
                     </button>
                     <div id="imageDiv" className="collapse">
-                        <img src={imageUrl} style={{width: '100%'}} />
+                        <img 
+                            src={imageUrl} 
+                            alt={question}
+                            style={{width: '100%'}} />
                     </div>
                 </div>
             )}

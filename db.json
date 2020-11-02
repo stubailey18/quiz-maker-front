@@ -1,8 +1,8 @@
 {
   "quizzes": [
     {
-      "name": "My Quiz",
-      "author": "Stu",
+      "name": "General History",
+      "author": "Stuart",
       "questions": [
         {
           "question": "When did WW1 begin?",
@@ -36,6 +36,41 @@
         }
       ],
       "id": 1
+    },
+    {
+      "name": "2020 US Presidential Election",
+      "author": "Stuart",
+      "questions": [
+        {
+          "question": "Who is pictured above?",
+          "correctAnswer": "Joe Biden",
+          "distractors": [
+            "Donald Trump",
+            "Barack Obama",
+            "George W Bush"
+          ],
+          "imageUrl": "http://res.cloudinary.com/dswezohlv/image/upload/v1604355105/quiz-maker/c5k803yjupobydf4e9at.jpg"
+        },
+        {
+          "question": "Which US political party does the logo pictured represent?",
+          "correctAnswer": "Republican",
+          "distractors": [
+            "Democratic",
+            "Libertarian",
+            "Green"
+          ],
+          "imageUrl": "http://res.cloudinary.com/dswezohlv/image/upload/v1604355622/quiz-maker/a4fw1xaw6tsodosdizuz.png"
+        },
+        {
+          "question": "The man pictured is the running mate of which presidential candidate?",
+          "correctAnswer": "Donald Trump",
+          "distractors": [
+            "Joe Biden"
+          ],
+          "imageUrl": "http://res.cloudinary.com/dswezohlv/image/upload/v1604355846/quiz-maker/skya2dtcgbhae9qvk299.jpg"
+        }
+      ],
+      "id": 2
     }
   ]
 }

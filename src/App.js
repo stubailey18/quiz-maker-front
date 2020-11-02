@@ -3,13 +3,14 @@ import {BrowserRouter, Link, Route, Switch} from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.js';
+import Home from './components/Home';
 import QuizTable from './components/QuizTable';
 import Quiz from './components/Quiz';
 import QuizEditor from './components/QuizEditor';
 
 export default function App() {
     return (
-        <div className="container" style={{minHeight: '100vh', backgroundColor: 'white'}}>
+        <div id="mainDiv" className="container">
             <h1 className="display-4 pt-4 pb-4 text-center">Quiz Maker</h1>
             <BrowserRouter>
                 <nav className="navbar navbar-expand-sm navbar-dark bg-dark justify-content-center mb-4">
@@ -35,7 +36,7 @@ export default function App() {
                     </div>
                 </nav>
                 <Switch>
-                    <Route exact path="/">{null}</Route>
+                    <Route exact path="/"><Home /></Route>
                     <Route path="/quizzes"><QuizTable /></Route>
                     <Route path="/quiz/:quizId"><Quiz /></Route>
                     <Route path="/quizeditor"><QuizEditor /></Route>

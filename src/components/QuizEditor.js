@@ -17,7 +17,8 @@ export default function QuizEditor() {
         if (quizId) {
             fetchQuiz(quizId)
                 .then(setQuiz)
-                .catch(() => {
+                .catch(error => {
+                    console.log(error);
                     setStatus({
                         message: 'Oops! I can\'t fetch quizzes right now.',
                         classes: 'alert alert-danger'
@@ -40,7 +41,8 @@ export default function QuizEditor() {
                             classes: 'alert alert-success'
                         });
                         setMode('update');
-                    }).catch(() => {
+                    }).catch(error => {
+                        console.log(error);
                         setStatus({
                             message: 'Oops! I can\'t save quizzes right now.',
                             classes: 'alert alert-danger'
@@ -54,7 +56,8 @@ export default function QuizEditor() {
                             message: 'Done! Your quiz has been saved.',
                             classes: 'alert alert-success'
                         });
-                    }).catch(() => {
+                    }).catch(error => {
+                        console.log(error);
                         setStatus({
                             message: 'Oops! I can\'t save quizzes right now.',
                             classes: 'alert alert-danger'
@@ -63,7 +66,7 @@ export default function QuizEditor() {
                 setSaving(false);
             }
         }
-    }, [saving]);
+    }, [saving, mode, quiz]);
     return (
         <div className="row justify-content-center">
             <div className="container col-sm-10 col-md-8 col-lg-6">
@@ -89,7 +92,7 @@ export default function QuizEditor() {
                         onSave={({name, author}) => {
                             setQuiz({...quiz, name, author});
                             setSaving(true);
-                        }}  />
+                        }} />
                 }
                 {activeComponent === 'QuestionForm' && 
                     <QuestionForm 
@@ -116,9 +119,11 @@ export default function QuizEditor() {
                 }
                 {status.message && (
                     <p className={status.classes}>{status.message}&nbsp;
-                        <a onClick={() => setStatus({message: '', classes: ''})} 
-                            className="float-right"
-                            style={{cursor: 'pointer'}}>[ X ]</a>
+                        <button 
+                            onClick={() => setStatus({message: '', classes: ''})} 
+                            className="float-right text-primary buttonAsAnchor">
+                            [ X ]
+                        </button>
                     </p>
                 )}
             </div>

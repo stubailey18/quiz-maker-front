@@ -1,6 +1,14 @@
 body {
     background-color: #f7f7f7 !important;
 }
+#mainDiv {
+    min-height: 100vh;
+    background-color: white;
+}
+.buttonAsAnchor {
+    background: none;
+    border: none;
+}
 .invalidInput {
     border: solid 1px #d9534f !important;
 }
