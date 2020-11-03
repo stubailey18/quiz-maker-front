@@ -2,7 +2,7 @@
 
 This is the React front-end of a little app for building simple multiple-choice question quizzes. I built it whilst teaching myself React. I wanted to build something that would read and write to a REST API and that included dynamic forms. It also uploads question images to [Cloudinary](https://cloudinary.com/). 
 
-There is, as yet, no back-end but you can make it work locally using [json-server](https://github.com/typicode/json-server). Add a `.env` file to the project's root directory with the following variables:
+You can see the app in action [here](https://inspiring-bose-43ed73.netlify.app/) or make it work locally using [json-server](https://github.com/typicode/json-server). Add a `.env` file to the project's root directory with the following variables:
 
 - REACT_APP_API_URL=<your_api_url>
 - REACT_APP_CLOUDINARY_URL=<your_cloudinary_api_url>
