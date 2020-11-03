@@ -41,7 +41,7 @@ export default function QuizTable() {
                                             const confirmed = window.confirm(`Are you sure you want to delete ${name}?`);
                                             if (confirmed) {
                                                 try {
-                                                    deleteQuiz(id);
+                                                    await deleteQuiz(id);
                                                     setNumDeletedQuizzes(num => num + 1);
                                                 } catch {
                                                     setError('Oops! I can\'t delete quizzes right now.')
