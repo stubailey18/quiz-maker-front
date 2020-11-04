@@ -15,7 +15,7 @@ export default function QuizTable() {
     }, [numDeletedQuizzes]);
     return (
         <>
-            {quizzes.length > 0 && (
+            {quizzes.length > 0 ? (
                 <table className="table table-striped">
                     <thead>
                         <tr>
@@ -28,7 +28,7 @@ export default function QuizTable() {
                         </tr>
                     </thead>
                     <tbody>
-                        {quizzes && quizzes.map(({id, name, author, questions}) => (
+                        {quizzes.map(({id, name, author, questions}) => (
                             <tr key={id}>
                                 <td className="d-none d-sm-table-cell">{id}</td>
                                 <td><Link to={`/quiz/${id}`}>{name}</Link></td>
@@ -56,7 +56,7 @@ export default function QuizTable() {
                         ))}
                     </tbody>
                 </table>
-            )}
+            ) : <p className="container">Alas there are no quizzes! Be the first to <Link to="/quizeditor">make one</Link>.</p>}
             {error && <p className="alert alert-danger">{error}</p>}
         </>
     );
