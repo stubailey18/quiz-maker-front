@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 export default function QuizForm(props) {
-    const {quiz, setQuiz, setStatus, onEditQuestion, onDeleteQuestion, onAddQuestion, onSave} = props;
+    const {quiz, setQuiz, setStatus, onEditQuestion, onDeleteQuestion, onAddQuestion, onSave, saving} = props;
     const [name, setName] = useState('');
     const [author, setAuthor] = useState('');
     const [formSubmitted, setFormSubmitted] = useState(false);
@@ -95,6 +95,7 @@ export default function QuizForm(props) {
             <div className="form-group">
                 <button 
                     type="button"
+                    disabled={saving}
                     onClick={() => {
                         setFormSubmitted(true);
                         if (name && author) {
@@ -103,7 +104,8 @@ export default function QuizForm(props) {
                     }}
                     className="btn btn-dark">
                     {quiz.id ? 'Save changes' : 'Save'}
-                </button>
+                </button>&nbsp;
+                {saving && <span className="spinner-border spinner-border-sm"></span>}
             </div>
         </form>
     );

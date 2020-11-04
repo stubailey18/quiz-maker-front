@@ -41,14 +41,15 @@ export default function QuizEditor() {
                             classes: 'alert alert-success'
                         });
                         setMode('update');
+                        setSaving(false);
                     }).catch(error => {
                         console.log(error);
                         setStatus({
                             message: 'Oops! I can\'t save quizzes right now.',
                             classes: 'alert alert-danger'
                         });
+                        setSaving(false);
                     });
-                setSaving(false);
             } else {
                 putQuiz(quiz)
                     .then(() => {
@@ -56,14 +57,15 @@ export default function QuizEditor() {
                             message: 'Done! Your quiz has been saved.',
                             classes: 'alert alert-success'
                         });
+                        setSaving(false);
                     }).catch(error => {
                         console.log(error);
                         setStatus({
                             message: 'Oops! I can\'t save quizzes right now.',
                             classes: 'alert alert-danger'
                         });
+                        setSaving(false);
                     });
-                setSaving(false);
             }
         }
     }, [saving, mode, quiz]);
@@ -92,7 +94,8 @@ export default function QuizEditor() {
                         onSave={({name, author}) => {
                             setQuiz({...quiz, name, author});
                             setSaving(true);
-                        }} />
+                        }}
+                        saving={saving} />
                 }
                 {activeComponent === 'QuestionForm' && 
                     <QuestionForm 

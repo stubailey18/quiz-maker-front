@@ -29,7 +29,7 @@ export default function QuestionForm(props) {
                         setImageFile(e.target.files[0]);
                     }}
                     className="custom-file-input" />
-                <label className="custom-file-label">Image</label>
+                <label className="custom-file-label">{imageFile.name || 'Image'}</label>
             </div>
             {imageUrl && (
                 <div className="form-group">
