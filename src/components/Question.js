@@ -55,6 +55,8 @@ export default function Question(props) {
                         <button 
                             onClick={() => {
                                 setAnswerButtonsDisabled(false);
+                                document.getElementsByName('answer').forEach(e => e.checked = false);
+                                document.querySelectorAll('div').forEach(e => e.classList.remove('rightAnswer', 'wrongAnswer'));
                                 onNextQuestion();
                             }} className="btn btn-dark mt-3">
                             Next
