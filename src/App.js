@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Link, Route, Switch} from 'react-router-dom';
+import {Link, Route, Switch} from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.js';
@@ -7,12 +7,13 @@ import Home from './components/Home';
 import QuizTable from './components/QuizTable';
 import Quiz from './components/Quiz';
 import QuizEditor from './components/QuizEditor';
+import { HashRouter } from 'react-router-dom/cjs/react-router-dom';
 
 export default function App() {
     return (
         <div id="mainDiv" className="container">
             <h1 className="display-4 pt-4 pb-4 text-center">Quiz Maker</h1>
-            <BrowserRouter>
+            <HashRouter baseName="quiz-maker">
                 <nav className="navbar navbar-expand-sm navbar-dark bg-dark justify-content-center mb-4">
                     <button 
                         type="button" 
@@ -41,7 +42,7 @@ export default function App() {
                     <Route path="/quiz/:quizId"><Quiz /></Route>
                     <Route path="/quizeditor"><QuizEditor /></Route>
                 </Switch>
-            </BrowserRouter>
+            </HashRouter>
         </div>
     );
 }
